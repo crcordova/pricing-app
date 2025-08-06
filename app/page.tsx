@@ -1,113 +1,377 @@
-import Image from 'next/image'
+'use client';
+
+import React, { useState } from 'react';
+import Link from "next/link";
+import { 
+  TrendingUp, 
+  Activity, 
+  BarChart3, 
+  Bot, 
+  DollarSign, 
+  Users, 
+  FileText, 
+  Settings,
+  ChevronRight,
+  Menu,
+  X,
+  Zap,
+  Brain,
+  Target,
+  Globe
+} from 'lucide-react';
 
 export default function Home() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const services = [
+    {
+      title: "Predicción de Precios",
+      description: "Modelos avanzados de ML para predecir precios de commodities y activos financieros",
+      icon: TrendingUp,
+      href: "/pricePrediction",
+      color: "bg-blue-500",
+      gradient: "from-blue-500 to-blue-600"
+    },
+    {
+      title: "Predicción de Volatilidad", 
+      description: "Análisis de volatilidad y riesgo en mercados financieros en tiempo real",
+      icon: Activity,
+      href: "/volatilityPrediction", 
+      color: "bg-red-500",
+      gradient: "from-red-500 to-red-600"
+    },
+    {
+      title: "Predicción de Ventas",
+      description: "Gestión empresarial y predicciones de ventas basadas en datos históricos",
+      icon: BarChart3,
+      href: "/ventasPrediction",
+      color: "bg-green-500", 
+      gradient: "from-green-500 to-green-600"
+    },
+    {
+      title: "Agente Wiki",
+      description: "IA conversacional para consultas de información general y conocimiento",
+      icon: Brain,
+      href: "/agenteWiki",
+      color: "bg-purple-500",
+      gradient: "from-purple-500 to-purple-600"
+    },
+    {
+      title: "Agente Financiero",
+      description: "Asistente especializado en análisis financiero y recomendaciones de inversión",
+      icon: DollarSign,
+      href: "/agenteFinanciero",
+      color: "bg-yellow-500",
+      gradient: "from-yellow-500 to-yellow-600"
+    }
+  ];
+
+  const features = [
+    {
+      icon: Zap,
+      title: "Análisis en Tiempo Real",
+      description: "Procesamiento de datos y predicciones actualizadas constantemente"
+    },
+    {
+      icon: Target,
+      title: "Precisión Avanzada",
+      description: "Algoritmos de machine learning entrenados con datos históricos"
+    },
+    {
+      icon: Globe,
+      title: "Cobertura Global",
+      description: "Análisis de mercados internacionales y commodities worldwide"
+    }
+  ];
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <div className="min-h-screen bg-gray-50 text-gray-900">
+      {/* Navbar */}
+      <nav className="bg-white shadow-lg border-b border-gray-200 sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            {/* Logo */}
+            <div className="flex items-center">
+              <button
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+                className="md:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+              >
+                {sidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              </button>
+              <div className="flex-shrink-0 flex items-center ml-2 md:ml-0">
+                <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-2 rounded-lg">
+                  <DollarSign className="w-6 h-6 text-white" />
+                </div>
+                <span className="ml-3 text-xl font-bold text-gray-900">PricingApp</span>
+              </div>
+            </div>
+
+            {/* Desktop Navigation */}
+            <div className="hidden md:block">
+              <div className="ml-10 flex items-baseline space-x-4">
+                <Link href="/pricePrediction" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                  Predicción
+                </Link>
+                <Link href="/clients" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                  Clientes
+                </Link>
+                <Link href="/scenarios" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                  Escenarios
+                </Link>
+                <Link href="/reports" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                  Reportes
+                </Link>
+              </div>
+            </div>
+
+            {/* Settings Button */}
+            <div className="hidden md:block">
+              <button className="bg-gray-100 p-2 rounded-full text-gray-600 hover:text-gray-900 hover:bg-gray-200 transition-colors">
+                <Settings className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+        {/* Mobile menu */}
+        {sidebarOpen && (
+          <div className="md:hidden bg-white border-t border-gray-200">
+            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+              <Link href="/pricePrediction" className="text-gray-600 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">
+                Predicción
+              </Link>
+              <Link href="/clients" className="text-gray-600 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">
+                Clientes  
+              </Link>
+              <Link href="/scenarios" className="text-gray-600 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">
+                Escenarios
+              </Link>
+              <Link href="/reports" className="text-gray-600 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">
+                Reportes
+              </Link>
+            </div>
+          </div>
+        )}
+      </nav>
 
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+      {/* Hero Section */}
+      <section className="bg-gradient-to-br from-blue-50 via-white to-purple-50 py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+              Plataforma de
+              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"> Análisis Financiero</span>
+            </h1>
+            <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+              Optimiza tus decisiones financieras con predicciones avanzadas de precios, volatilidad y ventas. 
+              Accede a agentes inteligentes especializados en análisis de mercados.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/pricePrediction" className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors flex items-center gap-2">
+                <TrendingUp className="w-5 h-5" />
+                Comenzar Análisis
+              </Link>
+              <button className="border border-gray-300 text-gray-700 px-8 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors">
+                Ver Demo
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
+      {/* Services Grid */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Nuestros Servicios</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Herramientas especializadas para análisis financiero, predicciones de mercado y gestión empresarial
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {services.map((service, index) => {
+              const Icon = service.icon;
+              return (
+                <Link key={index} href={service.href}>
+                  <div className="group bg-white border border-gray-200 rounded-xl p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer">
+                    <div className={`w-12 h-12 bg-gradient-to-r ${service.gradient} rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
+                      <Icon className="w-6 h-6 text-white" />
+                    </div>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+                      {service.title}
+                    </h3>
+                    <p className="text-gray-600 mb-4 leading-relaxed">
+                      {service.description}
+                    </p>
+                    <div className="flex items-center text-blue-600 font-medium group-hover:text-blue-700">
+                      <span>Acceder</span>
+                      <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </section>
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore the Next.js 13 playground.
-          </p>
-        </a>
+      {/* Features Section */}
+      {/* <section className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">¿Por qué elegir PricingApp?</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Tecnología de vanguardia para maximizar el rendimiento de tus inversiones y decisiones comerciales
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {features.map((feature, index) => {
+              const Icon = feature.icon;
+              return (
+                <div key={index} className="text-center">
+                  <div className="bg-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                    <Icon className="w-8 h-8 text-blue-600" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                    {feature.title}
+                  </h3>
+                  <p className="text-gray-600 leading-relaxed">
+                    {feature.description}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section> */}
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+      {/* Stats Section */}
+      <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
+            <div>
+              <div className="text-4xl font-bold text-white mb-2">98%</div>
+              <div className="text-blue-100">Precisión en Predicciones</div>
+            </div>
+            <div>
+              <div className="text-4xl font-bold text-white mb-2">24/7</div>
+              <div className="text-blue-100">Monitoreo Continuo</div>
+            </div>
+            <div>
+              <div className="text-4xl font-bold text-white mb-2">100+</div>
+              <div className="text-blue-100">Commodities Analizados</div>
+            </div>
+            <div>
+              <div className="text-4xl font-bold text-white mb-2">10+</div>
+              <div className="text-blue-100">Mercados Globales</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Quick Access */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-gradient-to-r from-gray-50 to-blue-50 rounded-2xl p-8 md:p-12">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+              <div>
+                <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                  Acceso Rápido a Herramientas
+                </h2>
+                <p className="text-gray-600 mb-6 leading-relaxed">
+                  Accede directamente a nuestras herramientas más utilizadas para comenzar tu análisis financiero inmediatamente.
+                </p>
+                <div className="space-y-3">
+                  <Link href="/pricePrediction" className="flex items-center text-blue-600 hover:text-blue-700 font-medium">
+                    <TrendingUp className="w-5 h-5 mr-2" />
+                    Análisis de Precios
+                    <ChevronRight className="w-4 h-4 ml-auto" />
+                  </Link>
+                  <Link href="/volatilityPrediction" className="flex items-center text-red-600 hover:text-red-700 font-medium">
+                    <Activity className="w-5 h-5 mr-2" />
+                    Monitor de Volatilidad
+                    <ChevronRight className="w-4 h-4 ml-auto" />
+                  </Link>
+                  <Link href="/agenteFinanciero" className="flex items-center text-yellow-600 hover:text-yellow-700 font-medium">
+                    <Bot className="w-5 h-5 mr-2" />
+                    Consultor IA
+                    <ChevronRight className="w-4 h-4 ml-auto" />
+                  </Link>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                  <BarChart3 className="w-8 h-8 text-green-600 mb-2" />
+                  <div className="text-sm font-medium text-gray-900">Ventas</div>
+                  <div className="text-xs text-gray-500">Predicciones avanzadas</div>
+                </div>
+                <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                  <Brain className="w-8 h-8 text-purple-600 mb-2" />
+                  <div className="text-sm font-medium text-gray-900">IA Wiki</div>
+                  <div className="text-xs text-gray-500">Conocimiento general</div>
+                </div>
+                <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                  <Users className="w-8 h-8 text-blue-600 mb-2" />
+                  <div className="text-sm font-medium text-gray-900">Clientes</div>
+                  <div className="text-xs text-gray-500">Gestión integral</div>
+                </div>
+                <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                  <FileText className="w-8 h-8 text-gray-600 mb-2" />
+                  <div className="text-sm font-medium text-gray-900">Reportes</div>
+                  <div className="text-xs text-gray-500">Análisis detallados</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-gray-900 text-white py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+              <div className="flex items-center mb-4">
+                <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-2 rounded-lg">
+                  <DollarSign className="w-6 h-6 text-white" />
+                </div>
+                <span className="ml-3 text-xl font-bold">PricingApp</span>
+              </div>
+              <p className="text-gray-400 leading-relaxed">
+                Plataforma integral de análisis financiero y predicciones de mercado.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Servicios</h3>
+              <ul className="space-y-2 text-gray-400">
+                <li><Link href="/pricePrediction" className="hover:text-white transition-colors">Predicción Precios</Link></li>
+                <li><Link href="/volatilityPrediction" className="hover:text-white transition-colors">Volatilidad</Link></li>
+                <li><Link href="/ventasPrediction" className="hover:text-white transition-colors">Ventas</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Agentes IA</h3>
+              <ul className="space-y-2 text-gray-400">
+                <li><Link href="/agenteWiki" className="hover:text-white transition-colors">Wiki Agent</Link></li>
+                <li><Link href="/agenteFinanciero" className="hover:text-white transition-colors">Financial Agent</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Soporte</h3>
+              <ul className="space-y-2 text-gray-400">
+                <li><a href="#" className="hover:text-white transition-colors">Documentación</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">API</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Contacto</a></li>
+              </ul>
+            </div>
+          </div>
+          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+            <p>&copy; 2025 PricingApp. Todos los derechos reservados.</p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
 }
