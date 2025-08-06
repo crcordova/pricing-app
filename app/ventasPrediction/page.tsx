@@ -7,20 +7,35 @@ import { Upload, Plus, Edit2, Trash2, Download, Eye, X, Check, AlertCircle, BarC
 const API_BASE = process.env.NEXT_PUBLIC_URL_SALE_PREDICTION;
 const API_REPORT = process.env.NEXT_PUBLIC_URL_SALE_REPORT;
 
+type Message = {
+  text: string;
+  type: 'success' | 'error';
+};
+type Empresas = {
+  [nombre: string]: string; // nombre -> industria
+};
+interface Venta {
+  fecha: string;
+  cliente: string;
+  unidades: number;
+}
+
+
 export default function VentasPredictionPage() {
-  const [empresas, setEmpresas] = useState({});
-  const [ventas, setVentas] = useState([]);
+  // const [empresas, setEmpresas] = useState({});
+  const [empresas, setEmpresas] = useState<Empresas>({});
+  const [ventas, setVentas] = useState<Venta[]>([]);
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('empresas');
-  const [message, setMessage] = useState(null);
-  
+  const [message, setMessage] = useState<Message | null>(null);
+
   // Estados para empresas
   const [newEmpresa, setNewEmpresa] = useState({ empresa: '', industria: '' });
-  const [editingEmpresa, setEditingEmpresa] = useState(null);
+  const [editingEmpresa, setEditingEmpresa] = useState<string | null>(null);
   const [showAddForm, setShowAddForm] = useState(false);
   
   // Estados para ventas
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [showVentas, setShowVentas] = useState(false);
 
@@ -30,7 +45,7 @@ export default function VentasPredictionPage() {
     fetchVentas();
   }, []);
 
-  const showMessage = (text, type = 'success') => {
+  const showMessage = (text: string, type: 'success' | 'error' = 'success') => {
     setMessage({ text, type });
     setTimeout(() => setMessage(null), 5000);
   };
@@ -76,7 +91,7 @@ export default function VentasPredictionPage() {
     }
   };
 
-  const updateEmpresa = async (nombre, nuevaIndustria) => {
+  const updateEmpresa = async (nombre: string, nuevaIndustria: string) => {
     try {
       const response = await fetch(`${API_BASE}/empresas/${nombre}`, {
         method: 'PUT',
@@ -97,7 +112,7 @@ export default function VentasPredictionPage() {
     }
   };
 
-  const deleteEmpresa = async (nombre) => {
+  const deleteEmpresa = async (nombre: string) => {
     if (!confirm(`¿Estás seguro de eliminar la empresa "${nombre}"?`)) return;
 
     try {
@@ -331,8 +346,9 @@ export default function VentasPredictionPage() {
                               type="text"
                               defaultValue={industria}
                               onKeyDown={(e) => {
+                                const input = e.target as HTMLInputElement;
                                 if (e.key === 'Enter') {
-                                  updateEmpresa(nombre, e.target.value);
+                                  updateEmpresa(nombre, input.value);
                                 } else if (e.key === 'Escape') {
                                   setEditingEmpresa(null);
                                 }
@@ -349,8 +365,14 @@ export default function VentasPredictionPage() {
                             <>
                               <button
                                 onClick={(e) => {
-                                  const input = e.target.closest('.flex').parentElement.querySelector('input');
-                                  updateEmpresa(nombre, input.value);
+                                  // const input = e.target.closest('.flex').parentElement.querySelector('input');
+                                  const target = e.target as HTMLElement;
+                                  const flexDiv = target.closest('.flex');
+                                  const input = flexDiv?.parentElement?.querySelector('input') as HTMLInputElement | null;
+                                  // updateEmpresa(nombre, input.value);
+                                  if (input) {
+                                    updateEmpresa(nombre, input.value);
+                                  }
                                 }}
                                 className="text-green-600 hover:text-green-800"
                               >
@@ -411,7 +433,12 @@ export default function VentasPredictionPage() {
                     <input
                       type="file"
                       accept=".csv"
-                      onChange={(e) => setSelectedFile(e.target.files[0])}
+                      // onChange={(e) => setSelectedFile(e.target.files[0])}
+                      onChange={(e) => {
+                          if (e.target.files && e.target.files[0]) {
+                            setSelectedFile(e.target.files[0]);
+                          }
+                        }}
                       className="hidden"
                       id="csv-upload"
                     />

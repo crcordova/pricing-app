@@ -1,9 +1,13 @@
 
 import dynamic from "next/dynamic";
-import React from "react";
+import React, { ComponentProps } from "react";
+import type Plotly from "plotly.js";
+import type Plot from "react-plotly.js";
 
 // Carga dinámica del componente Plotly
-const Plot = dynamic(() => import("react-plotly.js"), { ssr: false });
+const PlotDynamic = dynamic(() => import("react-plotly.js"), {
+  ssr: false,
+}) as React.ComponentType<ComponentProps<typeof Plot>>;
 
 interface PricePredictionChartProps {
   plot: any;
@@ -14,7 +18,7 @@ export default function PricePredictionChart({ plot }: PricePredictionChartProps
     <div className="w-full px-4 sm:px-8 lg:px-12 mt-8">
       <h2 className="text-xl font-semibold mb-4">Resultado de la simulación Volatilidad</h2>
       <div className="w-full h-[600px]">
-        <Plot
+        <PlotDynamic
           data={plot.data}
           layout={{
             ...plot.layout,

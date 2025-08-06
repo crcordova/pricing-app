@@ -15,8 +15,14 @@ import {
   ArrowLeft
 } from "lucide-react";
 import Link from "next/link";
+import type { ComponentProps } from "react";
+import type Plot from "react-plotly.js";
+type PlotProps = ComponentProps<typeof Plot>;
 
-const Plot = dynamic(() => import("react-plotly.js"), { ssr: false });
+// const Plot = dynamic(() => import("react-plotly.js"), { ssr: false });
+const PlotDynamic = dynamic(() => import("react-plotly.js"), {
+  ssr: false,
+}) as React.ComponentType<PlotProps>;
 
 // Configuración centralizada del backend
 const API_CONFIG = {
@@ -303,7 +309,7 @@ export default function PricePrediction() {
                   </div>
                   
                   <div className="bg-gray-50 rounded-lg p-4">
-                    <Plot
+                    <PlotDynamic
                       data={result.plot.data}
                       layout={{
                         ...result.plot.layout,
