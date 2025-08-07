@@ -24,7 +24,7 @@ import Link from "next/link";
 
 // Configuración centralizada del backend
 const API_CONFIG = {
-  BASE_URL: process.env.URL_AGENTE_WIKI,
+  BASE_URL: process.env.NEXT_PUBLIC_URL_AGENTE_WIKI,
   ENDPOINTS: {
     PAGES: "/pages",
     ADD_PAGE: "/pages",
