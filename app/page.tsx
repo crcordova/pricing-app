@@ -25,64 +25,64 @@ export default function Home() {
 
   const services = [
     {
-      title: "Predicción de Precios",
-      description: "Modelos avanzados de ML para predecir precios de commodities y activos financieros",
+      title: "Finance Prediction",
+      description: "Advanced ML models to predict trends in commodities and financial assets",
       icon: TrendingUp,
       href: "/pricePrediction",
       color: "bg-blue-500",
       gradient: "from-blue-500 to-blue-600"
     },
+    // {
+    //   title: "Predicción de Volatilidad", 
+    //   description: "Análisis de volatilidad y riesgo en mercados financieros en tiempo real",
+    //   icon: Activity,
+    //   href: "/volatilityPrediction", 
+    //   color: "bg-red-500",
+    //   gradient: "from-red-500 to-red-600"
+    // },
     {
-      title: "Predicción de Volatilidad", 
-      description: "Análisis de volatilidad y riesgo en mercados financieros en tiempo real",
-      icon: Activity,
-      href: "/volatilityPrediction", 
-      color: "bg-red-500",
-      gradient: "from-red-500 to-red-600"
-    },
-    {
-      title: "Predicción de Ventas",
-      description: "Gestión empresarial y predicciones de ventas basadas en datos históricos",
+      title: "Sales Prediction",
+      description: "Business management and sales predictions based on historical data",
       icon: BarChart3,
       href: "/ventasPrediction",
       color: "bg-green-500", 
       gradient: "from-green-500 to-green-600"
     },
     {
-      title: "Agente Wiki",
-      description: "IA conversacional para consultas de información general y conocimiento",
+      title: "AI Agent Copptech executive",
+      description: "AI executive with market and sales information",
       icon: Brain,
       href: "/agenteWiki",
       color: "bg-purple-500",
       gradient: "from-purple-500 to-purple-600"
     },
-    {
-      title: "Agente Financiero",
-      description: "Asistente especializado en análisis financiero y recomendaciones de inversión",
-      icon: DollarSign,
-      href: "/agenteFinanciero",
-      color: "bg-yellow-500",
-      gradient: "from-yellow-500 to-yellow-600"
-    }
+    // {
+    //   title: "Agente Financiero",
+    //   description: "Asistente especializado en análisis financiero y recomendaciones de inversión",
+    //   icon: DollarSign,
+    //   href: "/agenteFinanciero",
+    //   color: "bg-yellow-500",
+    //   gradient: "from-yellow-500 to-yellow-600"
+    // }
   ];
 
-  const features = [
-    {
-      icon: Zap,
-      title: "Análisis en Tiempo Real",
-      description: "Procesamiento de datos y predicciones actualizadas constantemente"
-    },
-    {
-      icon: Target,
-      title: "Precisión Avanzada",
-      description: "Algoritmos de machine learning entrenados con datos históricos"
-    },
-    {
-      icon: Globe,
-      title: "Cobertura Global",
-      description: "Análisis de mercados internacionales y commodities worldwide"
-    }
-  ];
+  // const features = [
+  //   {
+  //     icon: Zap,
+  //     title: "Análisis en Tiempo Real",
+  //     description: "Procesamiento de datos y predicciones actualizadas constantemente"
+  //   },
+  //   {
+  //     icon: Target,
+  //     title: "Precisión Avanzada",
+  //     description: "Algoritmos de machine learning entrenados con datos históricos"
+  //   },
+  //   {
+  //     icon: Globe,
+  //     title: "Cobertura Global",
+  //     description: "Análisis de mercados internacionales y commodities worldwide"
+  //   }
+  // ];
 
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900">
@@ -102,7 +102,7 @@ export default function Home() {
                 <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-2 rounded-lg">
                   <DollarSign className="w-6 h-6 text-white" />
                 </div>
-                <span className="ml-3 text-xl font-bold text-gray-900">PricingApp</span>
+                <span className="ml-3 text-xl font-bold text-gray-900">Trading Platform</span>
               </div>
             </div>
 
@@ -110,16 +110,16 @@ export default function Home() {
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-4">
                 <Link href="/pricePrediction" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                  Predicción
+                  Price Prediction
                 </Link>
                 <Link href="/clients" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                  Clientes
+                  Clients
                 </Link>
                 <Link href="/scenarios" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                  Escenarios
+                  Scenarios
                 </Link>
                 <Link href="/reports" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                  Reportes
+                  Reports
                 </Link>
               </div>
             </div>
@@ -159,20 +159,20 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-              Plataforma de
-              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"> Análisis Financiero</span>
+              Trading Platform for
+              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"> Financial Analysis</span>
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-              Optimiza tus decisiones financieras con predicciones avanzadas de precios, volatilidad y ventas. 
-              Accede a agentes inteligentes especializados en análisis de mercados.
+              Optimize your financial decisions with advanced price, volatility, and sales predictions.
+              Access intelligent agents specialized in market analysis.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/pricePrediction" className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors flex items-center gap-2">
                 <TrendingUp className="w-5 h-5" />
-                Comenzar Análisis
+                Start Analysis
               </Link>
               <button className="border border-gray-300 text-gray-700 px-8 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors">
-                Ver Demo
+                View Demo
               </button>
             </div>
           </div>
@@ -183,9 +183,9 @@ export default function Home() {
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Nuestros Servicios</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Our Services</h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Herramientas especializadas para análisis financiero, predicciones de mercado y gestión empresarial
+              Specialized tools for financial analysis, market predictions, and business management
             </p>
           </div>
           
@@ -205,7 +205,7 @@ export default function Home() {
                       {service.description}
                     </p>
                     <div className="flex items-center text-blue-600 font-medium group-hover:text-blue-700">
-                      <span>Acceder</span>
+                      <span>Acces</span>
                       <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
                     </div>
                   </div>
@@ -253,26 +253,26 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
             <div>
               <div className="text-4xl font-bold text-white mb-2">98%</div>
-              <div className="text-blue-100">Precisión en Predicciones</div>
+              <div className="text-blue-100">Accuracy in Predictions</div>
             </div>
             <div>
               <div className="text-4xl font-bold text-white mb-2">24/7</div>
-              <div className="text-blue-100">Monitoreo Continuo</div>
+              <div className="text-blue-100">Continuous Monitoring</div>
             </div>
             <div>
               <div className="text-4xl font-bold text-white mb-2">100+</div>
-              <div className="text-blue-100">Commodities Analizados</div>
+              <div className="text-blue-100">Commodities Analyzed</div>
             </div>
             <div>
               <div className="text-4xl font-bold text-white mb-2">10+</div>
-              <div className="text-blue-100">Mercados Globales</div>
+              <div className="text-blue-100">Global Markets</div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Quick Access */}
-      <section className="py-20 bg-white">
+      {/* <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-gradient-to-r from-gray-50 to-blue-50 rounded-2xl p-8 md:p-12">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
@@ -326,7 +326,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-12">
@@ -337,38 +337,38 @@ export default function Home() {
                 <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-2 rounded-lg">
                   <DollarSign className="w-6 h-6 text-white" />
                 </div>
-                <span className="ml-3 text-xl font-bold">PricingApp</span>
+                <span className="ml-3 text-xl font-bold">Trading Platform</span>
               </div>
               <p className="text-gray-400 leading-relaxed">
-                Plataforma integral de análisis financiero y predicciones de mercado.
+                Comprehensive platform for financial analysis and market trend predictions.
               </p>
             </div>
             <div>
               <h3 className="text-lg font-semibold mb-4">Servicios</h3>
               <ul className="space-y-2 text-gray-400">
-                <li><Link href="/pricePrediction" className="hover:text-white transition-colors">Predicción Precios</Link></li>
-                <li><Link href="/volatilityPrediction" className="hover:text-white transition-colors">Volatilidad</Link></li>
-                <li><Link href="/ventasPrediction" className="hover:text-white transition-colors">Ventas</Link></li>
+                <li><Link href="/pricePrediction" className="hover:text-white transition-colors">Price Prediction</Link></li>
+                <li><Link href="/volatilityPrediction" className="hover:text-white transition-colors">Volatility</Link></li>
+                <li><Link href="/ventasPrediction" className="hover:text-white transition-colors">Sales</Link></li>
               </ul>
             </div>
             <div>
               <h3 className="text-lg font-semibold mb-4">Agentes IA</h3>
               <ul className="space-y-2 text-gray-400">
-                <li><Link href="/agenteWiki" className="hover:text-white transition-colors">Wiki Agent</Link></li>
-                <li><Link href="/agenteFinanciero" className="hover:text-white transition-colors">Financial Agent</Link></li>
+                <li><Link href="/agenteWiki" className="hover:text-white transition-colors">AI Executive Agent</Link></li>
+                {/* <li><Link href="/agenteFinanciero" className="hover:text-white transition-colors">Financial Agent</Link></li> */}
               </ul>
             </div>
             <div>
               <h3 className="text-lg font-semibold mb-4">Soporte</h3>
               <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white transition-colors">Documentación</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Documentation</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">API</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Contacto</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Contact</a></li>
               </ul>
             </div>
           </div>
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2025 PricingApp. Todos los derechos reservados.</p>
+            <p>&copy; 2025 Trading Platform. All rights reserved.</p>
           </div>
         </div>
       </footer>
