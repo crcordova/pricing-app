@@ -459,7 +459,7 @@ const CommodityQuoteAnalyzer = () => {
               <ol className="text-xs text-blue-700 space-y-1 list-decimal list-inside">
                 <li>Enter client name</li>
                 <li>Add commodity components (must total 100%)</li>
-                <li>Click "Analyze Price Strategy"</li>
+                <li>Click Analyze Price Strategy</li>
                 <li>Review detailed price analysis and risk assessment</li>
               </ol>
             </div>
@@ -510,7 +510,7 @@ const CommodityQuoteAnalyzer = () => {
                       Ready for Analysis
                     </h3>
                     <p className="text-gray-600">
-                      Configure your portfolio and click "Analyze Portfolio" to get detailed price forecasts and risk assessment
+                      Configure your portfolio and click Analyze Portfolio to get detailed price forecasts and risk assessment
                     </p>
                   </div>
                 ) : (
