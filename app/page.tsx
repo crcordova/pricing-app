@@ -52,7 +52,7 @@ export default function Home() {
       title: "AI Agent Copptech executive",
       description: "AI executive with market and sales information",
       icon: Brain,
-      href: "/agenteWiki",
+      href: "/agenteAI",
       color: "bg-purple-500",
       gradient: "from-purple-500 to-purple-600"
     },
@@ -66,23 +66,6 @@ export default function Home() {
     // }
   ];
 
-  // const features = [
-  //   {
-  //     icon: Zap,
-  //     title: "Análisis en Tiempo Real",
-  //     description: "Procesamiento de datos y predicciones actualizadas constantemente"
-  //   },
-  //   {
-  //     icon: Target,
-  //     title: "Precisión Avanzada",
-  //     description: "Algoritmos de machine learning entrenados con datos históricos"
-  //   },
-  //   {
-  //     icon: Globe,
-  //     title: "Cobertura Global",
-  //     description: "Análisis de mercados internacionales y commodities worldwide"
-  //   }
-  // ];
 
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900">
@@ -354,7 +337,7 @@ export default function Home() {
             <div>
               <h3 className="text-lg font-semibold mb-4">Agentes IA</h3>
               <ul className="space-y-2 text-gray-400">
-                <li><Link href="/agenteWiki" className="hover:text-white transition-colors">AI Executive Agent</Link></li>
+                <li><Link href="/agenteAI" className="hover:text-white transition-colors">AI Executive Agent</Link></li>
                 {/* <li><Link href="/agenteFinanciero" className="hover:text-white transition-colors">Financial Agent</Link></li> */}
               </ul>
             </div>
