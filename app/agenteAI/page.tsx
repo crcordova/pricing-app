@@ -174,8 +174,12 @@ const CommodityQuoteAnalyzer = () => {
     setError('');
     
     try {
-      // Replace with your actual API endpoint
-      const response = await fetch('http://localhost:8005/quote', {
+      // Replace with your actual API endpoint process.env.NEXT_PUBLIC_URL_PRICE_PREDICTION
+      const apiUrl = process.env.NEXT_PUBLIC_URL_AGENT_AI;
+      if (!apiUrl) {
+        throw new Error('API URL is not defined. Please set NEXT_PUBLIC_URL_AGENT_AI in .env.local');
+      }
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
