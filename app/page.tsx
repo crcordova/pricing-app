@@ -41,10 +41,10 @@ export default function Home() {
     //   gradient: "from-red-500 to-red-600"
     // },
     {
-      title: "Sales Prediction",
-      description: "Business management and sales predictions based on historical data",
+      title: "Imports Analytic",
+      description: "Business management and analytics based on historical data",
       icon: BarChart3,
-      href: "/ventasPrediction",
+      href: "/importsAnalytics",
       color: "bg-green-500", 
       gradient: "from-green-500 to-green-600"
     },
@@ -331,7 +331,7 @@ export default function Home() {
               <ul className="space-y-2 text-gray-400">
                 <li><Link href="/pricePrediction" className="hover:text-white transition-colors">Price Prediction</Link></li>
                 <li><Link href="/volatilityPrediction" className="hover:text-white transition-colors">Volatility</Link></li>
-                <li><Link href="/ventasPrediction" className="hover:text-white transition-colors">Sales</Link></li>
+                <li><Link href="/importsAnalytics" className="hover:text-white transition-colors">Analytics</Link></li>
               </ul>
             </div>
             <div>
