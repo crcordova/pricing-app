@@ -195,13 +195,17 @@ const AnalyticsPage = () => {
     try {
       const params = new URLSearchParams({
         producto_nombre: selectedProduct,
-        ...(dateRange.start && { fecha_start: dateRange.start }),
-        ...(dateRange.end && { fecha_end: dateRange.end })
+        bins: '10',
+        // ...(dateRange && { fecha_start: dateRange }),
+        // ...(dateRange && { fecha_end: dateRange })
       });
+      if (fechaStart) params.append('fecha_start', fechaStart);
+      if (fechaEnd) params.append('fecha_end', fechaEnd);
 
       // Fetch histogram
-      const histResponse = await fetch(`${API_BASE_URL}/histograma_fob_unit?${params}`);
+      const histResponse = await fetch(`${API_BASE_URL}/analytics/histograma_fob_unit?${params}`);
       const histData = await histResponse.json();
+      console.log("Hist data:", histData);
       
       // Transform histogram data
       const transformedHist = histData.bins.map((bin, idx) => ({
@@ -215,16 +219,20 @@ const AnalyticsPage = () => {
         producto_nombre: selectedProduct,
         granularidad: granularidad,
         agrupar_por: 'global',
-        ...(dateRange.start && { fecha_start: dateRange.start }),
-        ...(dateRange.end && { fecha_end: dateRange.end })
+
       });
-      const evolResponse = await fetch(`${API_BASE_URL}/pricing/evolucion-precios?${evolParams}`);
+      if (fechaStart) evolParams.append('fecha_start', fechaStart);
+      if (fechaEnd) evolParams.append('fecha_end', fechaEnd);
+
+      const evolResponse = await fetch(`${API_BASE_URL}/analytics/pricing/evolucion-precios?${evolParams}`);
       const evolData = await evolResponse.json();
+      // console.log("Evol data:", evolData);
       setEvolutionData(evolData);
 
       // Fetch country comparison
-      const countryResponse = await fetch(`${API_BASE_URL}/pricing/comparativa-paises?${params}`);
+      const countryResponse = await fetch(`${API_BASE_URL}/analytics/pricing/comparativa-paises?${params}`);
       const countryInfo = await countryResponse.json();
+      // console.log("Country data:", countryInfo);
       setCountryData(countryInfo);
 
     } catch (error) {
@@ -764,7 +772,7 @@ const AnalyticsPage = () => {
     )}
 
     {/* Evolución de Precios */}
-    {evolutionData && evolutionData.serie_temporal && (
+    {evolutionData && (
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
         <h2 className="text-lg font-semibold text-gray-900 mb-4">
           Price Evolution - {evolutionData.producto}
@@ -912,7 +920,8 @@ const AnalyticsPage = () => {
     )}
 
     {/* Country Comparison */}
-    {countryData && countryData.comparativa_paises && (
+    {countryData && (
+    // {countryData && countryData.comparativa_paises && (
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Market Share Pie Chart */}
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
