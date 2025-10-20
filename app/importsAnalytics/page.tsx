@@ -28,9 +28,75 @@ interface ChartDataPoint {
   [key: string]: string | number;
 }
 
-interface BoxPlotDataPoint {
+interface BoxPlotDataPoint extends Record<string, any> {
   group: string;
+  subGroup?: string;
   value: number;
+  [key: string]: string | number | undefined;
+}
+
+interface EvolutionDatum {
+  periodo: string;
+  fob_unit_max: number;
+  fob_unit_promedio_ponderado: number;
+  fob_unit_min: number;
+  cantidad_total: number
+}
+
+interface EvolutionData {
+  producto: string;
+  serie_temporal: EvolutionDatum[];
+}
+
+interface CountryDatum {
+  pais: string;
+  volumen: {
+    share_mercado_porcentaje: number;
+  };
+  fob_unit: {
+    promedio_ponderado: number;
+    minimo: number;
+    maximo: number;
+  };
+  num_transacciones: number;
+
+}
+
+interface CountryData {
+  comparativa_paises: CountryDatum[];
+  pais_mas_competitivo: string;
+  total_paises: string
+}
+
+interface TopImporter {
+  rut: string;
+  nombre: string;
+  industria: string | null;
+  cantidad_total: number;
+  fob_total: number;
+  market_share_porcentaje: number;
+}
+
+interface ShareImportadoresResponse {
+  producto: string;
+  mercado_total_cantidad: number;
+  concentracion_hhi: number;
+  interpretacion_hhi: string;
+  top_importadores: TopImporter[];
+}
+
+interface SerieTemporalEntry {
+  periodo: string;
+  cantidad_total: number;
+  fob_total: number;
+  num_importadores: number;
+  num_transacciones: number;
+}
+
+interface TendenciasProductoResponse {
+  producto: string;
+  granularidad: string;
+  serie_temporal: SerieTemporalEntry[];
 }
 
 const API_BASE_URL = 'http://localhost:8000'; // Ajusta según tu configuración
@@ -58,9 +124,10 @@ const AnalyticsPage = () => {
 
   // Estados para análisis de precios
   const [granularidad, setGranularidad] = useState('month');
-  const [histogramData, setHistogramData] = useState(null);
-  const [evolutionData, setEvolutionData] = useState(null);
-  const [countryData, setCountryData] = useState(null);
+  // const [histogramData, setHistogramData] = useState(null);
+  const [histogramData, setHistogramData] = useState<{ rango: string; valor: number }[]>([]);
+  const [evolutionData, setEvolutionData] = useState<EvolutionData | null>(null);
+  const [countryData, setCountryData] = useState<CountryData | null>(null);
 
   // Pestañas principales
   const mainTabs = [
@@ -123,7 +190,7 @@ const AnalyticsPage = () => {
     } catch (error) {
       console.error('Error fetching top importers:', error);
       // Datos de ejemplo para desarrollo
-      const mockData = [
+      const mockData: TopImporterDetail[] = [
         {
           nombre: "VETERQUIMICA S.A.",
           rut: "82524300",
@@ -182,7 +249,7 @@ const AnalyticsPage = () => {
           });
         }
       });
-      setBoxPlotData(mockBoxPlotData);
+      setBoxPlotData(mockBoxPlotData as unknown as BoxPlotDataPoint[]);
     } finally {
       setLoadingBoxPlot(false);
     }
@@ -208,10 +275,10 @@ const AnalyticsPage = () => {
       console.log("Hist data:", histData);
       
       // Transform histogram data
-      const transformedHist = histData.bins.map((bin, idx) => ({
+      const transformedHist = histData.bins.map((bin: number, idx: number) => ({
         rango: `${bin.toFixed(2)} - ${(histData.bins[idx + 1] || bin + 1).toFixed(2)}`,
         valor: histData.values[idx] || 0
-      })).filter((_, idx) => idx < histData.bins.length - 1);
+      })).filter((_: unknown, idx:number) => idx < histData.bins.length - 1);
       setHistogramData(transformedHist);
 
       // Fetch evolution
@@ -323,7 +390,7 @@ const AnalyticsPage = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Main Tabs */}
         <div className="mb-6">
-          <div className="border-b border-gray-200">
+          <div className="border-b border-gray-600">
             <nav className="-mb-px flex space-x-8">
               {mainTabs.map((tab) => {
                 const Icon = tab.icon;
@@ -379,7 +446,7 @@ const AnalyticsPage = () => {
         {mainTab === 'products' && productsSubTab === 'top-importers' && (
           <div className="space-y-6">
             {/* Filters */}
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-gray-600">
               <h2 className="text-lg font-semibold text-gray-900 mb-4">Filters</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div>
@@ -482,7 +549,7 @@ const AnalyticsPage = () => {
                 </div>
 
                 {/* Chart */}
-                <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-gray-600">
                   <div style={{ height: '500px' }}>
                     <ResponsiveBar 
                       data={prepareChartData()} 
@@ -554,7 +621,7 @@ const AnalyticsPage = () => {
                 </div>
 
                 {/* BoxPlot - FOB Unit Price Analysis */}
-                <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-gray-600">
                   <div className="mb-4">
                     <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
                       <DollarSign className="w-5 h-5 text-green-600" />
@@ -572,7 +639,7 @@ const AnalyticsPage = () => {
                   ) : boxPlotData.length > 0 ? (
                     <div style={{ height: '500px' }}>
                       <ResponsiveBoxPlot
-                        data={prepareBoxPlotData()}
+                        data={prepareBoxPlotData() as any}
                         margin={{ top: 60, right: 80, bottom: 100, left: 80 }}
                         minValue="auto"
                         maxValue="auto"
@@ -621,16 +688,32 @@ const AnalyticsPage = () => {
                         }}
                         motionConfig="gentle"
                         theme={{
-                          fontSize: 11,
+                          text: {
+                            fontSize: 12,
+                            fill: '#6b7280', // equivalente a textColor
+                          },
                           axis: {
                             legend: {
                               text: {
                                 fontSize: 13,
-                                fontWeight: 600
-                              }
-                            }
-                          }
-                        }}
+                                fontWeight: 600,
+                                fill: '#374151',
+                              },
+                            },
+                            ticks: {
+                              text: {
+                                fontSize: 11,
+                                fill: '#6b7280',
+                              },
+                            },
+                          },
+                          legends: {
+                            text: {
+                              fontSize: 12,
+                              fill: '#6b7280',
+                            },
+                          },
+                        }as any}
                       />
                     </div>
                   ) : (
@@ -656,7 +739,7 @@ const AnalyticsPage = () => {
         {mainTab === 'products' && productsSubTab === 'price-analysis' && (
   <div className="space-y-6">
     {/* Filters */}
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-gray-600">
       <h2 className="text-lg font-semibold text-gray-900 mb-4">Filters</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <div>
@@ -726,7 +809,7 @@ const AnalyticsPage = () => {
 
     {/* Histograma de Precios */}
     {histogramData && (
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-gray-600">
         <h2 className="text-lg font-semibold text-gray-900 mb-4">FOB Unit Price Distribution</h2>
         <div style={{ height: '400px' }}>
           <ResponsiveBar
@@ -763,8 +846,10 @@ const AnalyticsPage = () => {
               </div>
             )}
             theme={{
-              fontSize: 12,
-              textColor: '#6b7280'
+              text:{
+                fontSize: 12,
+                fill: '#6b7280'
+              }
             }}
           />
         </div>
@@ -773,7 +858,7 @@ const AnalyticsPage = () => {
 
     {/* Evolución de Precios */}
     {evolutionData && (
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-gray-600">
         <h2 className="text-lg font-semibold text-gray-900 mb-4">
           Price Evolution - {evolutionData.producto}
         </h2>
@@ -870,7 +955,7 @@ const AnalyticsPage = () => {
             ]}
             tooltip={({ point }) => (
               <div className="bg-white px-3 py-2 shadow-lg rounded border border-gray-200">
-                <strong>{point.serieId}</strong>: ${point.data.y.toFixed(2)}
+                <strong>{point.seriesId}</strong>: ${point.data.y.toFixed(2)}
               </div>
             )}
           />
@@ -924,7 +1009,7 @@ const AnalyticsPage = () => {
     // {countryData && countryData.comparativa_paises && (
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Market Share Pie Chart */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-gray-600">
           <h2 className="text-lg font-semibold text-gray-900 mb-4">Market Share by Country</h2>
           <div style={{ height: '350px' }}>
             <ResponsivePie
@@ -1029,13 +1114,11 @@ const AnalyticsPage = () => {
   </div>
 )}
 
-        {/* {mainTab === 'products' && productsSubTab !== 'market-trends' && (
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-12 text-center">
-            <p className="text-gray-500 text-lg">
-              {productsSubTab === 'price-analysis' ? 'Price Analysis' : 'Market Trends'} - Laburando Coming Soon
-            </p>
+        {mainTab=== 'products' && productsSubTab === 'market-trends'&& (
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-12 text-center text-gray-600">
+            <p className="text-gray-500 text-lg"> Coming Soon</p>
           </div>
-        )} */}
+        )}
 
         {mainTab === 'importers' && (
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-12 text-center">
@@ -1047,68 +1130,5 @@ const AnalyticsPage = () => {
   );
 };
 
-// Componente simple de gráfico de barras (simulando Nivo)
-const SimpleBarChart = ({ data, keys, indexBy, colors }) => {
-  if (!data || data.length === 0) return <div className="flex items-center justify-center h-full text-gray-400">No data available</div>;
-
-  const maxValue = Math.max(
-    ...data.map(item => 
-      keys.reduce((sum, key) => sum + (Number(item[key]) || 0), 0)
-    )
-  );
-
-  return (
-    <div className="h-full flex flex-col">
-      <div className="flex-1 flex items-end justify-around px-4 pb-8">
-        {data.map((item, idx) => {
-          const total = keys.reduce((sum, key) => sum + (Number(item[key]) || 0), 0);
-          const heightPercent = (total / maxValue) * 100;
-          
-          return (
-            <div key={idx} className="flex flex-col items-center flex-1 mx-2">
-              <div className="w-full flex flex-col-reverse" style={{ height: `${heightPercent}%`, minHeight: '30px' }}>
-                {keys.map((key, keyIdx) => {
-                  const value = Number(item[key]) || 0;
-                  const segmentPercent = (value / total) * 100;
-                  return (
-                    <div
-                      key={key}
-                      style={{ 
-                        height: `${segmentPercent}%`,
-                        backgroundColor: colors[keyIdx % colors.length]
-                      }}
-                      className="w-full hover:opacity-80 transition-opacity cursor-pointer relative group"
-                      title={`${key}: ${value.toLocaleString()}`}
-                    >
-                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                        <span className="text-xs text-white font-semibold">{value.toLocaleString()}</span>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-              <div className="mt-2 text-xs text-gray-600 text-center max-w-full truncate" title={item[indexBy]}>
-                {item[indexBy]}
-              </div>
-            </div>
-          );
-        })}
-      </div>
-      
-      {/* Legend */}
-      <div className="flex flex-wrap justify-center gap-4 mt-4 pt-4 border-t border-gray-200">
-        {keys.map((key, idx) => (
-          <div key={key} className="flex items-center gap-2">
-            <div 
-              className="w-3 h-3 rounded"
-              style={{ backgroundColor: colors[idx % colors.length] }}
-            />
-            <span className="text-xs text-gray-600">{key}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
 
 export default AnalyticsPage;
