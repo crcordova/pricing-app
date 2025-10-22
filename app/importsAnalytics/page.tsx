@@ -12,6 +12,7 @@ import PriceHistogram from "@/components/price-analysis/PriceHistogram"
 import PriceEvolution from "@/components/price-analysis/PriceEvolution"
 import CountryComparison from "@/components/price-analysis/CountryComparision"
 import TopImportersSection from "@/components/top-importers/TopImportersSection"
+import ImporterAnalysis from "@/components/importer-detail/ImporterAnalysis"
 
 import { CountryData } from "@/types/analytics";
 
@@ -346,37 +347,37 @@ const AnalyticsPage = () => {
   };
 
   // Preparar datos para gráficos
-  const prepareChartData = (): ChartDataPoint[] => {
-    if (chartView === 'paises') {
-      return topImporters.map(imp => {
-        const dataPoint: ChartDataPoint = { importador: imp.nombre };
-        Object.entries(imp.detalle.paises).forEach(([pais, cantidad]) => {
-          dataPoint[pais] = cantidad;
-        });
-        return dataPoint;
-      });
-    } else {
-      return topImporters.map(imp => {
-        const dataPoint: ChartDataPoint = { importador: imp.nombre };
-        Object.entries(imp.detalle.marcas).forEach(([marca, cantidad]) => {
-          dataPoint[marca] = cantidad;
-        });
-        return dataPoint;
-      });
-    }
-  };
+  // const prepareChartData = (): ChartDataPoint[] => {
+  //   if (chartView === 'paises') {
+  //     return topImporters.map(imp => {
+  //       const dataPoint: ChartDataPoint = { importador: imp.nombre };
+  //       Object.entries(imp.detalle.paises).forEach(([pais, cantidad]) => {
+  //         dataPoint[pais] = cantidad;
+  //       });
+  //       return dataPoint;
+  //     });
+  //   } else {
+  //     return topImporters.map(imp => {
+  //       const dataPoint: ChartDataPoint = { importador: imp.nombre };
+  //       Object.entries(imp.detalle.marcas).forEach(([marca, cantidad]) => {
+  //         dataPoint[marca] = cantidad;
+  //       });
+  //       return dataPoint;
+  //     });
+  //   }
+  // };
 
-  const getChartKeys = (): string[] => {
-    if (topImporters.length === 0) return [];
+  // const getChartKeys = (): string[] => {
+  //   if (topImporters.length === 0) return [];
     
-    const keysSet = new Set<string>();
-    topImporters.forEach(imp => {
-      const detalle = chartView === 'paises' ? imp.detalle.paises : imp.detalle.marcas;
-      Object.keys(detalle).forEach(key => keysSet.add(key));
-    });
+  //   const keysSet = new Set<string>();
+  //   topImporters.forEach(imp => {
+  //     const detalle = chartView === 'paises' ? imp.detalle.paises : imp.detalle.marcas;
+  //     Object.keys(detalle).forEach(key => keysSet.add(key));
+  //   });
     
-    return Array.from(keysSet);
-  };
+  //   return Array.from(keysSet);
+  // };
 
   const fetchMarketTrendsData = async () => {
   if (!selectedProduct) return;
@@ -403,6 +404,24 @@ const AnalyticsPage = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const [importers, setImporters] = useState<any[]>([]);
+  const fetchImporters = async () => {
+    if (!selectedProduct) return;
+    const res = await fetch(`${API_BASE_URL}/importadores/product/${selectedProduct}`);
+    const data = await res.json();
+    setImporters(data);
+  };
+  const [selectedImporter, setSelectedImporter] = useState("");
+  
+  const [importerData, setImporterData] = useState<any | null>(null);
+  const fetchImporterDetail = async () => {
+    if (!selectedImporter) return;
+    const url = `${API_BASE_URL}/analytics/importador_detalle/${selectedImporter}?fecha_start=${fechaStart}&fecha_end=${fechaEnd}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    setImporterData(data);
   };
 
 
@@ -668,97 +687,174 @@ const AnalyticsPage = () => {
       )}
 
         {mainTab=== 'products' && productsSubTab === 'market-trends'&& (
-        <div className="space-y-8 text-gray-600">
-        {/* Filters */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-gray-600">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Market Trends Filters</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {/* Producto */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Product</label>
-              <select
-                value={selectedProduct}
-                onChange={(e) => setSelectedProduct(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          <div className="space-y-8 text-gray-600">
+          {/* Filters */}
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-gray-600">
+            <h2 className="text-lg font-semibold text-gray-900 mb-4">Market Trends Filters</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {/* Producto */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Product</label>
+                <select
+                  value={selectedProduct}
+                  onChange={(e) => setSelectedProduct(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                >
+                  {productos.map((producto) => (
+                    <option key={producto} value={producto}>{producto}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Fecha inicio */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Start Date</label>
+                <input
+                  type="date"
+                  value={fechaStart}
+                  onChange={(e) => setFechaStart(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+
+              {/* Fecha fin */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">End Date</label>
+                <input
+                  type="date"
+                  value={fechaEnd}
+                  onChange={(e) => setFechaEnd(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+
+              {/* Granularidad */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Granularity</label>
+                <select
+                  value={granularidad}
+                  onChange={(e) => setGranularidad(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                >
+                  <option value="month">Monthly</option>
+                  <option value="quarter">Quarterly</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="mt-6 text-right">
+              <button
+                onClick={fetchMarketTrendsData}
+                disabled={loading}
+                className="px-5 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 disabled:bg-gray-400"
               >
-                {productos.map((producto) => (
-                  <option key={producto} value={producto}>{producto}</option>
-                ))}
-              </select>
-            </div>
-
-            {/* Fecha inicio */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Start Date</label>
-              <input
-                type="date"
-                value={fechaStart}
-                onChange={(e) => setFechaStart(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-            </div>
-
-            {/* Fecha fin */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">End Date</label>
-              <input
-                type="date"
-                value={fechaEnd}
-                onChange={(e) => setFechaEnd(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-            </div>
-
-            {/* Granularidad */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Granularity</label>
-              <select
-                value={granularidad}
-                onChange={(e) => setGranularidad(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              >
-                <option value="month">Monthly</option>
-                <option value="quarter">Quarterly</option>
-              </select>
+                {loading ? "Loading..." : "Analyze"}
+              </button>
             </div>
           </div>
 
-          <div className="mt-6 text-right">
-            <button
-              onClick={fetchMarketTrendsData}
-              disabled={loading}
-              className="px-5 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 disabled:bg-gray-400"
-            >
-              {loading ? "Loading..." : "Analyze"}
-            </button>
-          </div>
+          {/* Charts */}
+          {shareImportadoresData && (
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Market Share</h3>
+              <div className="h-96">
+                <MarketShareSection data={shareImportadoresData} />
+              </div>
+            </div>
+          )}
+
+          {tendenciasProductoData && (
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Product Trends</h3>
+              <div className="h-[500px]">
+                <MarketTrendsMixedChart data={tendenciasProductoData} />
+              </div>
+            </div>
+          )}
         </div>
-
-        {/* Charts */}
-        {shareImportadoresData && (
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Market Share</h3>
-            <div className="h-96">
-              <MarketShareSection data={shareImportadoresData} />
-            </div>
-          </div>
-        )}
-
-        {tendenciasProductoData && (
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Product Trends</h3>
-            <div className="h-[500px]">
-              <MarketTrendsMixedChart data={tendenciasProductoData} />
-            </div>
-          </div>
-        )}
-      </div>
-    )}
+      )}
 
         {mainTab === 'importers' && (
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-12 text-center">
-            <p className="text-gray-500 text-lg">Importers Analysis - Coming Soon</p>
+            <h2 className="text-lg font-semibold text-gray-900 mb-4">Importers Filters</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-gray-600">
+              {/* Producto */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Product</label>
+                <select
+                  value={selectedProduct}
+                  onChange={(e) => setSelectedProduct(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                >
+                  {productos.map((producto) => (
+                    <option key={producto} value={producto}>{producto}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Fecha inicio */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Start Date</label>
+                <input
+                  type="date"
+                  value={fechaStart}
+                  onChange={(e) => setFechaStart(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+
+              {/* Fecha fin */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">End Date</label>
+                <input
+                  type="date"
+                  value={fechaEnd}
+                  onChange={(e) => setFechaEnd(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+            </div>
+
+            <button
+              onClick={fetchImporters}
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition mb-6">
+              Search Importers
+            </button>
+
+            {/* Select de importadores */}
+            {importers.length > 0 && (
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Importer
+                </label>
+                <select
+                  value={selectedImporter}
+                  onChange={(e) => setSelectedImporter(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-600"
+                >
+                  <option value="">Select importer</option>
+                  {importers.map((imp) => (
+                    <option key={imp.rut} value={imp.rut}>
+                      {imp.nombre} — {imp.rut}-{imp.dv}
+                    </option>
+                  ))}
+                </select>
+                <button
+                  onClick={fetchImporterDetail}
+                  className="mt-4 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
+                  Importer DEtails
+                </button>
+              </div>
+            )}
+
+            {/* Resultados */}
+            {importerData && (
+              <ImporterAnalysis data={importerData}  />
+            )}
+
           </div>
+          
+
         )}
       </div>
     </div>
