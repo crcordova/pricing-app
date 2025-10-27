@@ -114,7 +114,8 @@ interface MarketShareSectionProps {
   data: ShareImportadoresResponse;
 }
 
-const API_BASE_URL = 'http://localhost:8000'; // Ajusta según tu configuración
+// const API_BASE_URL = 'http://localhost:8000'; // Ajusta según tu configuración
+const API_BASE_URL = process.env.NEXT_PUBLIC_URL_IMPORTS; // Ajusta según tu configuración
 
 const AnalyticsPage = () => {
   // Estados principales

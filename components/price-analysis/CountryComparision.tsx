@@ -46,7 +46,7 @@ const CountryComparison: React.FC<CountryComparisonProps> = ({ data }) => (
     </div>
 
     {/* Table */}
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-gray-600">
       <h2 className="text-lg font-semibold text-gray-900 mb-4">Price Comparison by Country</h2>
       <div className="overflow-auto" style={{ maxHeight: "400px" }}>
         <table className="min-w-full divide-y divide-gray-200">

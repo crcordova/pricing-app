@@ -112,7 +112,7 @@ const ImporterAnalysis = ({ data }: ImporterAnalysisProps) => {
           <p className="text-sm text-gray-600">Partida Arancelaria: {producto.partida_arancelaria}</p>
           <div className="mt-3 grid grid-cols-3 gap-4">
             <div className="bg-blue-50 p-3 rounded">
-              <p className="text-xs text-gray-600">Cantidad Total</p>
+              <p className="text-xs text-gray-600">Total Amountl</p>
               <p className="text-lg font-bold text-blue-600">{formatNumber(producto.total_cantidad)} kg</p>
             </div>
             <div className="bg-green-50 p-3 rounded">
@@ -120,7 +120,7 @@ const ImporterAnalysis = ({ data }: ImporterAnalysisProps) => {
               <p className="text-lg font-bold text-green-600">{formatCurrency(producto.total_fob)}</p>
             </div>
             <div className="bg-purple-50 p-3 rounded">
-              <p className="text-xs text-gray-600">Precio Promedio</p>
+              <p className="text-xs text-gray-600">Average Price</p>
               <p className="text-lg font-bold text-purple-600">{formatCurrency(producto.fob_unit_promedio_ponderado)}/kg</p>
             </div>
           </div>
@@ -128,17 +128,17 @@ const ImporterAnalysis = ({ data }: ImporterAnalysisProps) => {
 
         {/* Sección 1: Análisis de Precios por Marca - TABLA */}
         <div className="mb-8 text-gray-600">
-          <h3 className="text-lg font-semibold mb-4 text-gray-700">💰 Análisis de Precios por Marca</h3>
+          <h3 className="text-lg font-semibold mb-4 text-gray-700">💰 Price Analysis by Brand</h3>
           <div className="overflow-x-auto">
             <table className="min-w-full bg-white border rounded-lg overflow-hidden">
               <thead className="bg-gradient-to-r from-blue-500 to-blue-600 text-white">
                 <tr>
-                  <th className="px-4 py-3 text-left text-sm font-semibold">Marca</th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold">País</th>
-                  <th className="px-4 py-3 text-right text-sm font-semibold">Precio Mínimo</th>
-                  <th className="px-4 py-3 text-right text-sm font-semibold">Precio Promedio</th>
-                  <th className="px-4 py-3 text-right text-sm font-semibold">Precio Máximo</th>
-                  <th className="px-4 py-3 text-right text-sm font-semibold">Rango</th>
+                  <th className="px-4 py-3 text-left text-sm font-semibold">Brand</th>
+                  <th className="px-4 py-3 text-left text-sm font-semibold">Country</th>
+                  <th className="px-4 py-3 text-right text-sm font-semibold">Price Min</th>
+                  <th className="px-4 py-3 text-right text-sm font-semibold">Price Average</th>
+                  <th className="px-4 py-3 text-right text-sm font-semibold">Price Max</th>
+                  <th className="px-4 py-3 text-right text-sm font-semibold">Range</th>
                 </tr>
               </thead>
               <tbody>
@@ -169,14 +169,14 @@ const ImporterAnalysis = ({ data }: ImporterAnalysisProps) => {
             </table>
           </div>
           <p className="text-xs text-gray-500 mt-2">
-            💡 <strong>Tip:</strong> Un rango amplio puede indicar variabilidad en condiciones de compra o calidad del producto.
+            💡 <strong>Tip:</strong> A wide range may indicate variability in purchasing conditions or product quality.
           </p>
         </div>
 
         {/* Sección 2: Distribución por Marca */}
         <div className="mb-8 grid grid-cols-1 lg:grid-cols-2 gap-6 text-gray-600">
           <div>
-            <h3 className="text-lg font-semibold mb-4 text-gray-700">🥧 Distribución de Volumen por Marca</h3>
+            <h3 className="text-lg font-semibold mb-4 text-gray-700">Volume Distribution by Brand</h3>
             <div style={{ height: '350px' }}>
               <ResponsivePie
                 data={cantidadPorMarca}
@@ -198,8 +198,8 @@ const ImporterAnalysis = ({ data }: ImporterAnalysisProps) => {
                 tooltip={({ datum }) => (
                   <div className="bg-white p-3 shadow-lg rounded border">
                     <strong>{datum.label}</strong><br/>
-                    Cantidad: {formatNumber(datum.value)} kg<br/>
-                    {((datum.value / producto.total_cantidad) * 100).toFixed(1)}% del total
+                    Quantity: {formatNumber(datum.value)} kg<br/>
+                    {((datum.value / producto.total_cantidad) * 100).toFixed(1)}% of the total
                   </div>
                 )}
               />
@@ -208,13 +208,13 @@ const ImporterAnalysis = ({ data }: ImporterAnalysisProps) => {
 
           {/* Tabla de resumen por marca */}
           <div>
-            <h3 className="text-lg font-semibold mb-4 text-gray-700">📋 Resumen por Marca</h3>
+            <h3 className="text-lg font-semibold mb-4 text-gray-700">📋 Summary by Brand</h3>
             <div className="overflow-x-auto">
               <table className="min-w-full bg-white border rounded-lg overflow-hidden">
                 <thead className="bg-gradient-to-r from-purple-500 to-purple-600 text-white">
                   <tr>
-                    <th className="px-4 py-2 text-left text-xs font-semibold">Marca</th>
-                    <th className="px-4 py-2 text-right text-xs font-semibold">Cantidad</th>
+                    <th className="px-4 py-2 text-left text-xs font-semibold">Brand</th>
+                    <th className="px-4 py-2 text-right text-xs font-semibold">Quantity</th>
                     <th className="px-4 py-2 text-right text-xs font-semibold">% Total</th>
                     <th className="px-4 py-2 text-right text-xs font-semibold">FOB Total</th>
                   </tr>
@@ -241,7 +241,7 @@ const ImporterAnalysis = ({ data }: ImporterAnalysisProps) => {
         {/* Sección 3: Distribución por País */}
         <div className="mb-8 grid grid-cols-1 lg:grid-cols-2 gap-6 text-gray-600">
           <div>
-            <h3 className="text-lg font-semibold mb-4 text-gray-700">🌍 Distribución de Volumen por País</h3>
+            <h3 className="text-lg font-semibold mb-4 text-gray-700">🌍 Volume Distribution by Country</h3>
             <div style={{ height: '350px' }}>
               <ResponsivePie
                 data={cantidadPorPais}
@@ -263,8 +263,8 @@ const ImporterAnalysis = ({ data }: ImporterAnalysisProps) => {
                 tooltip={({ datum }) => (
                   <div className="bg-white p-3 shadow-lg rounded border">
                     <strong>{datum.label}</strong><br/>
-                    Cantidad: {formatNumber(datum.value)} kg<br/>
-                    {((datum.value / producto.total_cantidad) * 100).toFixed(1)}% del total
+                    Quantity: {formatNumber(datum.value)} kg<br/>
+                    {((datum.value / producto.total_cantidad) * 100).toFixed(1)}% of the total
                   </div>
                 )}
               />
@@ -273,16 +273,16 @@ const ImporterAnalysis = ({ data }: ImporterAnalysisProps) => {
 
           {/* Tabla de resumen por país */}
           <div>
-            <h3 className="text-lg font-semibold mb-4 text-gray-700">📊 Resumen por País</h3>
+            <h3 className="text-lg font-semibold mb-4 text-gray-700">📊 Summary by Country</h3>
             <div className="overflow-x-auto">
               <table className="min-w-full bg-white border rounded-lg overflow-hidden">
                 <thead className="bg-gradient-to-r from-green-500 to-green-600 text-white">
                   <tr>
-                    <th className="px-4 py-2 text-left text-xs font-semibold">País</th>
-                    <th className="px-4 py-2 text-right text-xs font-semibold">Cantidad</th>
+                    <th className="px-4 py-2 text-left text-xs font-semibold">Country</th>
+                    <th className="px-4 py-2 text-right text-xs font-semibold">Quantity</th>
                     <th className="px-4 py-2 text-right text-xs font-semibold">% Total</th>
-                    <th className="px-4 py-2 text-right text-xs font-semibold">Precio Prom.</th>
-                    <th className="px-4 py-2 text-right text-xs font-semibold">Marcas</th>
+                    <th className="px-4 py-2 text-right text-xs font-semibold">Avg. Price</th>
+                    <th className="px-4 py-2 text-right text-xs font-semibold">Brand</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -307,7 +307,7 @@ const ImporterAnalysis = ({ data }: ImporterAnalysisProps) => {
 
         {/* Sección 4: Scatter Plot - Relación Precio vs Cantidad */}
         <div className="mb-8 text-gray-600">
-          <h3 className="text-lg font-semibold mb-4 text-gray-700">📈 Análisis Precio vs Volumen de Compra</h3>
+          <h3 className="text-lg font-semibold mb-4 text-gray-700">📈 Price vs. Purchase Volume Analysis</h3>
           <div style={{ height: '400px' }}>
             <ResponsiveScatterPlot
               data={scatterData}
@@ -339,9 +339,9 @@ const ImporterAnalysis = ({ data }: ImporterAnalysisProps) => {
               tooltip={({ node }) => (
                 <div className="bg-white p-3 shadow-lg rounded border">
                   <strong>{node.data.marca}</strong><br/>
-                  País: {node.data.pais}<br/>
-                  Cantidad: {formatNumber(node.data.x)} kg<br/>
-                  Precio: {formatCurrency(node.data.y)}/kg
+                  Country: {node.data.pais}<br/>
+                  Quantity: {formatNumber(node.data.x)} kg<br/>
+                  Price: {formatCurrency(node.data.y)}/kg
                 </div>
               )}
               nodeSize={14}
@@ -370,22 +370,22 @@ const ImporterAnalysis = ({ data }: ImporterAnalysisProps) => {
             />
           </div>
           <p className="text-sm text-gray-600 mt-2 bg-blue-50 p-3 rounded">
-            💡 <strong>Insight:</strong> Este gráfico muestra la relación entre el volumen de compra y el precio unitario. 
-            Marcas con mayor volumen pueden tener economías de escala reflejadas en mejores precios unitarios.
+            💡 <strong>Insight:</strong> This chart shows the relationship between purchase volume and unit price. Brands with higher volume may enjoy economies of scale, reflected in higher unit prices.
+            
           </p>
         </div>
 
         {/* Comparación detallada por país (si aplica) */}
         {hayMultiplesPaises && (
           <div className="mb-8">
-            <h3 className="text-lg font-semibold mb-4 text-gray-700">🌎 Comparación Detallada por País</h3>
+            <h3 className="text-lg font-semibold mb-4 text-gray-700">🌎 Detailed Comparison by Country</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {paisesList.map((pais, idx) => (
                 <div key={idx} className="border-2 rounded-lg p-4 bg-gradient-to-br from-white to-gray-50 hover:shadow-lg transition">
                   <h4 className="font-bold text-xl mb-3 text-gray-800 border-b pb-2">{pais.pais_nombre}</h4>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between items-center bg-blue-50 p-2 rounded">
-                      <span className="text-gray-600">Cantidad:</span>
+                      <span className="text-gray-600">Amount:</span>
                       <span className="font-bold text-blue-600">{formatNumber(pais.total_cantidad)} kg</span>
                     </div>
                     <div className="flex justify-between items-center bg-green-50 p-2 rounded">
@@ -393,17 +393,17 @@ const ImporterAnalysis = ({ data }: ImporterAnalysisProps) => {
                       <span className="font-bold text-green-600">{formatCurrency(pais.total_fob)}</span>
                     </div>
                     <div className="flex justify-between items-center bg-purple-50 p-2 rounded">
-                      <span className="text-gray-600">Precio Prom:</span>
+                      <span className="text-gray-600">Price Avg:</span>
                       <span className="font-bold text-purple-600">{formatCurrency(pais.fob_unit.promedio_ponderado || 0)}/kg</span>
                     </div>
                     <div className="flex justify-between items-center bg-orange-50 p-2 rounded">
-                      <span className="text-gray-600">Rango Precio:</span>
+                      <span className="text-gray-600">Range Price:</span>
                       <span className="font-semibold text-orange-600">
                         {formatCurrency(pais.fob_unit.minimo || 0)} - {formatCurrency(pais.fob_unit.maximo || 0)}
                       </span>
                     </div>
                     <div className="flex justify-between items-center bg-gray-100 p-2 rounded">
-                      <span className="text-gray-600">Marcas:</span>
+                      <span className="text-gray-600">Brand:</span>
                       <span className="font-bold text-gray-700">{pais.marcas.length}</span>
                     </div>
                   </div>
