@@ -19,6 +19,7 @@ import {
   Minus,
   RefreshCw
 } from 'lucide-react';
+import Link from "next/link";
 
 type PortfolioComponent = {
   commodity: string;
@@ -255,9 +256,9 @@ const CommodityQuoteAnalyzer = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <button className="text-gray-600 hover:text-gray-900 transition-colors">
+              <Link href="/" className="text-gray-600 hover:text-gray-900 transition-colors">
                 <ArrowLeft className="w-6 h-6" />
-              </button>
+              </Link>
               <div>
                 <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
                   <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-2 rounded-lg">

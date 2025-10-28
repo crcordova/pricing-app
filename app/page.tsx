@@ -95,14 +95,14 @@ export default function Home() {
                 <Link href="/pricePrediction" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
                   Price Prediction
                 </Link>
-                <Link href="/clients" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                  Clients
-                </Link>
                 <Link href="/scenarios" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
                   Scenarios
                 </Link>
                 <Link href="/reports" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
                   Reports
+                </Link>
+                <Link href="/loader" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                  Load Data
                 </Link>
               </div>
             </div>
