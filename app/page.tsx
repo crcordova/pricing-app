@@ -95,8 +95,8 @@ export default function Home() {
                 <Link href="/pricePrediction" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
                   Price Prediction
                 </Link>
-                <Link href="/scenarios" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                  Scenarios
+                <Link href="/imports" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                  Imports
                 </Link>
                 <Link href="/reports" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
                   Reports
@@ -126,8 +126,8 @@ export default function Home() {
               <Link href="/clients" className="text-gray-600 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">
                 Clientes  
               </Link>
-              <Link href="/scenarios" className="text-gray-600 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">
-                Escenarios
+              <Link href="/imports" className="text-gray-600 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">
+                Imports
               </Link>
               <Link href="/reports" className="text-gray-600 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">
                 Reportes
